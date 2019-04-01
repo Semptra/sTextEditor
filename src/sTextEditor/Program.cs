@@ -14,11 +14,11 @@ namespace sTextEditor
         [STAThread]
         static void Main()
         {
-            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TextEditorWindow());
+
+            var bootstrapper = new AppBootstrapper();
+            bootstrapper.Run();
         }
     }
 }

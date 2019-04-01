@@ -33,7 +33,16 @@
             this.FormatAsJsonRadioButton = new System.Windows.Forms.RadioButton();
             this.FormatAsXmlRadioButton = new System.Windows.Forms.RadioButton();
             this.FormattingGroupBox = new System.Windows.Forms.GroupBox();
+            this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileOpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileOpenFromFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileOpenFromDbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSaveToFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSaveToDbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FormattingGroupBox.SuspendLayout();
+            this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TextEditorRichTextBox
@@ -91,6 +100,67 @@
             this.FormattingGroupBox.TabStop = false;
             this.FormattingGroupBox.Text = "FormattingBox";
             // 
+            // MainMenuStrip
+            // 
+            this.MainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileMenuItem});
+            this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuStrip.Name = "MainMenuStrip";
+            this.MainMenuStrip.Size = new System.Drawing.Size(800, 24);
+            this.MainMenuStrip.TabIndex = 6;
+            this.MainMenuStrip.Text = "menuStrip1";
+            // 
+            // FileMenuItem
+            // 
+            this.FileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileOpenMenuItem,
+            this.FileSaveMenuItem});
+            this.FileMenuItem.Name = "FileMenuItem";
+            this.FileMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.FileMenuItem.Text = "File";
+            // 
+            // FileOpenMenuItem
+            // 
+            this.FileOpenMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileOpenFromFileMenuItem,
+            this.FileOpenFromDbMenuItem});
+            this.FileOpenMenuItem.Name = "FileOpenMenuItem";
+            this.FileOpenMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileOpenMenuItem.Text = "Open";
+            // 
+            // FileOpenFromFileMenuItem
+            // 
+            this.FileOpenFromFileMenuItem.Name = "FileOpenFromFileMenuItem";
+            this.FileOpenFromFileMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileOpenFromFileMenuItem.Text = "From file";
+            // 
+            // FileOpenFromDbMenuItem
+            // 
+            this.FileOpenFromDbMenuItem.Name = "FileOpenFromDbMenuItem";
+            this.FileOpenFromDbMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileOpenFromDbMenuItem.Text = "From database";
+            // 
+            // FileSaveMenuItem
+            // 
+            this.FileSaveMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileSaveToFileMenuItem,
+            this.FileSaveToDbMenuItem});
+            this.FileSaveMenuItem.Name = "FileSaveMenuItem";
+            this.FileSaveMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveMenuItem.Text = "Save";
+            // 
+            // FileSaveToFileMenuItem
+            // 
+            this.FileSaveToFileMenuItem.Name = "FileSaveToFileMenuItem";
+            this.FileSaveToFileMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveToFileMenuItem.Text = "To file";
+            // 
+            // FileSaveToDbMenuItem
+            // 
+            this.FileSaveToDbMenuItem.Name = "FileSaveToDbMenuItem";
+            this.FileSaveToDbMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveToDbMenuItem.Text = "To database";
+            // 
             // TextEditorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -98,11 +168,16 @@
             this.ClientSize = new System.Drawing.Size(800, 531);
             this.Controls.Add(this.FormattingGroupBox);
             this.Controls.Add(this.TextEditorRichTextBox);
+            this.Controls.Add(this.MainMenuStrip);
+            this.MainMenuStrip = this.MainMenuStrip;
             this.Name = "TextEditorWindow";
             this.Text = "sTextEditor";
             this.FormattingGroupBox.ResumeLayout(false);
             this.FormattingGroupBox.PerformLayout();
+            this.MainMenuStrip.ResumeLayout(false);
+            this.MainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -112,6 +187,14 @@
         private System.Windows.Forms.RadioButton FormatAsJsonRadioButton;
         private System.Windows.Forms.RadioButton FormatAsXmlRadioButton;
         private System.Windows.Forms.GroupBox FormattingGroupBox;
+        private System.Windows.Forms.MenuStrip MainMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem FileMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileOpenMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileOpenFromFileMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileOpenFromDbMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileSaveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileSaveToFileMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileSaveToDbMenuItem;
     }
 }
 

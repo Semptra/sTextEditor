@@ -19,33 +19,34 @@ namespace sTextEditor
             {
                 #region File commands
 
-
+                this.Bind(ViewModel,
+                    viewModel => viewModel.FileText,
+                    view => view.TextEditorRichTextBox.Text);
 
                 #endregion
                 #region Formatting commands
 
                 this.BindCommand(ViewModel,
-                    viewModel => viewModel.FormatAsNone,
-                    view => view.FormatAsNoneRadioButton)
-                .DisposeWith(disposableRegistration);
+                    viewModel => viewModel.OpenFileFromFile,
+                    view => view.FileOpenFromFileMenuItem,
+                    "Click");
 
                 this.BindCommand(ViewModel,
-                    viewModel => viewModel.FormatAsJson,
-                    view => view.FormatAsJsonRadioButton)
-                .DisposeWith(disposableRegistration);
+                   viewModel => viewModel.OpenFileFromDatabase,
+                   view => view.FileOpenFromDbMenuItem,
+                   "Click");
 
                 this.BindCommand(ViewModel,
-                    viewModel => viewModel.FormatAsXml,
-                    view => view.FormatAsXmlRadioButton)
-                .DisposeWith(disposableRegistration);
+                    viewModel => viewModel.SaveFileToFile,
+                    view => view.FileSaveToFileMenuItem,
+                    "Click");
+
+                this.BindCommand(ViewModel,
+                    viewModel => viewModel.SaveFileToDatabase,
+                    view => view.FileSaveToDbMenuItem,
+                    "Click");
 
                 #endregion
-
-                this.WhenAnyValue(x => x.TextEditorRichTextBox.Text)
-                    .Subscribe(preFormatedText =>
-                    {
-                        this.TextEditorRichTextBox.Text = FormatText(preFormatedText);
-                    });
             });
         }
 
