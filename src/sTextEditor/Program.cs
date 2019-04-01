@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
+using ReactiveUI;
+using Splat;
 
 namespace sTextEditor
 {
@@ -14,9 +14,11 @@ namespace sTextEditor
         [STAThread]
         static void Main()
         {
+            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new TextEditorWindow());
         }
     }
 }
