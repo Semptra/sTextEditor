@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using sTextEditor.Models;
 
 namespace sTextEditor.Repositories
 {
@@ -14,7 +17,6 @@ namespace sTextEditor.Repositories
         public DbFileRepository(string connectionString)
         {
             _connection = new SQLiteConnection(connectionString);
-            EnsureDbCreated();
         }
 
         public async Task<byte[]> LoadFileAsync(string name)
@@ -64,7 +66,21 @@ namespace sTextEditor.Repositories
             _connection.Close();
         }
 
-        private void EnsureDbCreated()
+        public DataTable LoadAllFiles()
+        {
+            _connection.Open();
+
+            var resultDataTable = new DataTable();
+            var sql = new SQLiteCommand("SELECT Id, Name, LastModifiedDate FROM FileInfo", _connection);
+            var dataAdapter = new SQLiteDataAdapter(sql);
+            dataAdapter.Fill(resultDataTable);
+
+            _connection.Close();
+
+            return resultDataTable;
+        }
+
+        public void EnsureDbCreated()
         {
             _connection.Open();
 
