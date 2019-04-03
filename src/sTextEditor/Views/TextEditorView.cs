@@ -1,4 +1,6 @@
-﻿using System.Reactive.Linq;
+﻿using System;
+using System.IO;
+using System.Reactive.Linq;
 using System.Windows.Forms;
 using ReactiveUI;
 using sTextEditor.ViewModels;
@@ -15,6 +17,21 @@ namespace sTextEditor.Views
                 .TextChanged
                 .Select(_ => this.TextEditor.Text)
                 .InvokeCommand(this, view => view.ViewModel.UpdateFileTextCommand);
+
+            this.ClearFormattingButton.Events()
+                .Click
+                .Select(_ => this.TextEditor)
+                .InvokeCommand(this, view => view.ViewModel.ClearFormattingCommand);
+
+            this.FormatAsXmlButton.Events()
+                .Click
+                .Select(_ => this.TextEditor)
+                .InvokeCommand(this, view => view.ViewModel.FormatAsXmlCommand);
+
+            this.FormatAsJsonButton.Events()
+                .Click
+                .Select(_ => this.TextEditor)
+                .InvokeCommand(this, view => view.ViewModel.FormatAsJsonCommand);
 
             this.WhenActivated(d =>
             {

@@ -9,6 +9,17 @@ namespace sTextEditor.ViewModels
 {
     public class OpenFromFileViewModel : ReactiveObject, IRoutableViewModel
     {
+        private readonly LocalFileRepository _localFileRepository;
+
+        public OpenFromFileViewModel()
+        {
+            _localFileRepository = Locator.Current.GetService<LocalFileRepository>();
+
+            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
+
+            LoadInfoFromCurrentFile();
+        }
+
         private string _fileName;
         public string FileName
         {
@@ -34,17 +45,6 @@ namespace sTextEditor.ViewModels
 
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
-
-        private readonly LocalFileRepository _localFileRepository;
-
-        public OpenFromFileViewModel(IScreen screen = null)
-        {
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            _localFileRepository = Locator.Current.GetService<LocalFileRepository>();
-            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
-
-            LoadInfoFromCurrentFile();
-        }
 
         private async Task OpenFileAsync()
         {

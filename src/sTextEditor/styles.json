@@ -1,0 +1,111 @@
+{
+  "Json": {
+    "Default": {
+      "ForeColor": "black"
+    },
+    "Number": {
+      "ForeColor": "navy"
+    },
+    "String": {
+      "ForeColor": "firebrick"
+    },
+    "StringEol": {
+      "ForeColor": "black"
+    },
+    "PropertyName": {
+      "ForeColor": "purple"
+    },
+    "EscapeSequence": {
+      "ForeColor": "black"
+    },
+    "LineComment": {
+      "ForeColor": "forestgreen"
+    },
+    "BlockComment": {
+      "ForeColor": "forestgreen"
+    },
+    "Operator": {
+      "ForeColor": "black"
+    },
+    "Uri": {
+      "ForeColor": "darkblue"
+    },
+    "CompactIRI": {
+      "ForeColor": "darkblue"
+    },
+    "Keyword": {
+      "ForeColor": "black"
+    },
+    "LdKeyword": {
+      "ForeColor": "black"
+    },
+    "Error": {
+      "ForeColor": "red"
+    }
+  },
+  "Xml": {
+    "Default": {
+      "ForeColor": "black"
+    },
+    "Question": {
+      "ForeColor": "gray"
+    },
+    "CData": {
+      "ForeColor": "black"
+    },
+    "AspAt": {
+      "ForeColor": "black"
+    },
+    "Asp": {
+      "ForeColor": "black"
+    },
+    "Script": {
+      "ForeColor": "black"
+    },
+    "XmlEnd": {
+      "ForeColor": "navy"
+    },
+    "XmlStart": {
+      "ForeColor": "navy"
+    },
+    "TagEnd": {
+      "ForeColor": "navy"
+    },
+    "Value": {
+      "ForeColor": "blueviolet"
+    },
+    "Entity": {
+      "ForeColor": "darkblue"
+    },
+    "Other": {
+      "ForeColor": "black"
+    },
+    "SingleString": {
+      "ForeColor": "black"
+    },
+    "DoubleString": {
+      "ForeColor": "chocolate"
+    },
+    "Number": {
+      "ForeColor": "darkgreen"
+    },
+	  "AttributeUnknown": {
+      "ForeColor": "red"
+    },
+    "Attribute": {
+      "ForeColor": "darkblue"
+    },
+	  "TagUnknown": {
+      "ForeColor": "red"
+    },
+    "Tag": {
+      "ForeColor": "darkslateblue"
+    },
+    "Comment": {
+      "ForeColor": "darkgreen"
+    },
+    "XcComment": {
+      "ForeColor": "darkgreen"
+    }
+  }
+}

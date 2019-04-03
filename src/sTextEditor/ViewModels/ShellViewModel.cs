@@ -7,8 +7,6 @@ namespace sTextEditor.ViewModels
 {
     public class ShellViewModel : ReactiveObject, IScreen
     {
-        private string _applicationTitle;
-
         public ShellViewModel()
         {
             Router = new RoutingState();
@@ -29,13 +27,14 @@ namespace sTextEditor.ViewModels
             ShowTextEditor();
         }
 
-        public RoutingState Router { get; }
-
+        private string _applicationTitle;
         public string ApplicationTitle
         {
             get => _applicationTitle;
             set => this.RaiseAndSetIfChanged(ref _applicationTitle, value);
         }
+
+        public RoutingState Router { get; }
 
         public ReactiveCommand ShowTextEditorCommand { get; }
         public ReactiveCommand ShowOpenFromFileCommand { get; }

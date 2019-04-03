@@ -2,16 +2,39 @@
 using System.Data.SQLite;
 using System.Threading.Tasks;
 using Dapper;
+using Splat;
+using sTextEditor.Services;
 
 namespace sTextEditor.Repositories
 {
     public class DbFileRepository
     {
         private readonly SQLiteConnection _connection;
+        private readonly CompressionService _compressionService;
 
         public DbFileRepository(string connectionString)
         {
             _connection = new SQLiteConnection(connectionString);
+            _compressionService = Locator.Current.GetService<CompressionService>();
+        }
+
+        public async Task EnsureDbCreatedAsync()
+        {
+            _connection.Open();
+
+            var fileInfoTable = await _connection.ExecuteScalarAsync<string>(
+                "SELECT name " +
+                "FROM SQLITE_MASTER " +
+                "WHERE type='table' AND name='FileInfo'");
+
+            if (string.IsNullOrEmpty(fileInfoTable))
+            {
+                await _connection.ExecuteAsync(
+                    $"CREATE TABLE FileInfo " +
+                    $"(Id INTEGER PRIMARY KEY, Name TEXT UNIQUE, Content BLOB)");
+            }
+
+            _connection.Close();
         }
 
         public async Task<byte[]> LoadFileAsync(string name)
@@ -88,25 +111,6 @@ namespace sTextEditor.Repositories
             _connection.Close();
 
             return updateResult;
-        }
-
-        public async Task EnsureDbCreatedAsync()
-        {
-            _connection.Open();
-
-            var fileInfoTable = await _connection.ExecuteScalarAsync<string>(
-                "SELECT name " +
-                "FROM SQLITE_MASTER " +
-                "WHERE type='table' AND name='FileInfo'");
-
-            if (string.IsNullOrEmpty(fileInfoTable))
-            {
-                await _connection.ExecuteAsync(
-                    $"CREATE TABLE FileInfo " +
-                    $"(Id INTEGER PRIMARY KEY, Name TEXT UNIQUE, Content BLOB)");
-            }
-
-            _connection.Close();
         }
     }
 }

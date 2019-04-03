@@ -11,6 +11,19 @@ namespace sTextEditor.ViewModels
 {
     public class OpenFromDatabaseViewModel : ReactiveObject, IRoutableViewModel
     {
+        private readonly DbFileRepository _dbFileRepository;
+
+        public OpenFromDatabaseViewModel()
+        {
+            _dbFileRepository = Locator.Current.GetService<DbFileRepository>();
+
+            RefreshDbFilesCommand = ReactiveCommand.Create(RefreshDbFiles);
+            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
+            UpdateSelectedRowCommand = ReactiveCommand.Create<string, Unit>(UpdateSelectedRow);
+
+            LoadInfoFromCurrentFile();
+        }
+
         private DataTable _dbFiles;
         public DataTable DbFiles
         {
@@ -52,20 +65,6 @@ namespace sTextEditor.ViewModels
 
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
-
-        private readonly DbFileRepository _dbFileRepository;
-
-        public OpenFromDatabaseViewModel(IScreen screen = null)
-        {
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            _dbFileRepository = Locator.Current.GetService<DbFileRepository>();
-
-            RefreshDbFilesCommand = ReactiveCommand.Create(RefreshDbFiles);
-            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
-            UpdateSelectedRowCommand = ReactiveCommand.Create<string, Unit>(UpdateSelectedRow);
-
-            LoadInfoFromCurrentFile();
-        }
 
         private void RefreshDbFiles()
         {

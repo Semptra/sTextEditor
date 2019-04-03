@@ -10,6 +10,18 @@ namespace sTextEditor.ViewModels
 {
     public class SaveToDatabaseViewModel : ReactiveObject, IRoutableViewModel
     {
+        private readonly DbFileRepository _dbFileRepository;
+
+        public SaveToDatabaseViewModel()
+        {
+            _dbFileRepository = Locator.Current.GetService<DbFileRepository>();
+
+            RefreshDbFilesCommand = ReactiveCommand.Create(RefreshDbFiles);
+            SaveFileCommand = ReactiveCommand.CreateFromTask(SafeFileAsync);
+
+            LoadInfoFromCurrentFile();
+        }
+
         private DataTable _dbFiles;
         public DataTable DbFiles
         {
@@ -43,19 +55,6 @@ namespace sTextEditor.ViewModels
 
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
-
-        private readonly DbFileRepository _dbFileRepository;
-
-        public SaveToDatabaseViewModel(IScreen screen = null)
-        {
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            _dbFileRepository = Locator.Current.GetService<DbFileRepository>();
-
-            RefreshDbFilesCommand = ReactiveCommand.Create(RefreshDbFiles);
-            SaveFileCommand = ReactiveCommand.CreateFromTask(SafeFileAsync);
-
-            LoadInfoFromCurrentFile();
-        }
 
         private void RefreshDbFiles()
         {
