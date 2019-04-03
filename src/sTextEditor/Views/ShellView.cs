@@ -1,6 +1,6 @@
-﻿using ReactiveUI;
+﻿using System.Windows.Forms;
+using ReactiveUI;
 using sTextEditor.ViewModels;
-using System.Windows.Forms;
 
 namespace sTextEditor.Views
 {
@@ -10,42 +10,31 @@ namespace sTextEditor.Views
         {
             InitializeComponent();
 
-            this.WhenActivated(b =>
+            this.WhenActivated(d =>
             {
-                b(this.OneWayBind(ViewModel,
+                d(this.OneWayBind(ViewModel,
                     viewModel => viewModel.Router,
                     view => view.RoutedControlHost.Router));
 
-                #region Menu commands binding
-
-                b(this.BindCommand(ViewModel,
+                d(this.BindCommand(ViewModel,
                     viewModel => viewModel.ShowOpenFromFileCommand,
                     view => view.OpenFromFileMenuItem));
 
-                b(this.BindCommand(ViewModel,
+                d(this.BindCommand(ViewModel,
                     viewModel => viewModel.ShowTextEditorCommand,
                     view => view.OpenFileEditorMenuItem));
 
-                b(this.BindCommand(ViewModel,
+                d(this.BindCommand(ViewModel,
                     viewModel => viewModel.ShowOpenFromDatabaseCommand,
                     view => view.OpenFromDatabaseMenuItem));
 
-                // this.BindCommand(ViewModel,
-                //    viewModel => viewModel.ShowOpenFromDatabaseCommand,
-                //    view => view.OpenFromDatabaseMenuItem)
-                //.DisposeWith(disposableRegistration);
+                d(this.BindCommand(ViewModel,
+                    viewModel => viewModel.ShowSaveToFileCommand,
+                    view => view.SaveToFileMenuItem));
 
-                // this.BindCommand(ViewModel,
-                //     viewModel => viewModel.ShowSaveToFileCommand,
-                //     view => view.SaveToFileMenuItem)
-                // .DisposeWith(disposableRegistration);
-
-                // this.BindCommand(ViewModel,
-                //     viewModel => viewModel.ShowSaveToDatabaseCommand,
-                //     view => view.SaveToDatabaseMenuItem)
-                // .DisposeWith(disposableRegistration);
-
-                #endregion
+                d(this.BindCommand(ViewModel,
+                    viewModel => viewModel.ShowSaveToDatabaseCommand,
+                    view => view.SaveToDatabaseMenuItem));
             });
         }
         

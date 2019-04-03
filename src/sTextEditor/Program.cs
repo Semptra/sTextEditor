@@ -11,7 +11,6 @@ namespace sTextEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Create and run Bootstrapper
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();            
         }

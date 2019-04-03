@@ -119,14 +119,12 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CurrentLoadedFile.cs" />
-    <Compile Include="Models\Converters\FileInfoConverter.cs" />
-    <Compile Include="Models\FileInfoDbModel.cs" />
-    <Compile Include="Models\FileInfoDataGridModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DbFileRepository.cs" />
-    <Compile Include="Repositories\IFileRepository.cs" />
     <Compile Include="Repositories\LocalFileRepository.cs" />
+    <Compile Include="ViewModels\SaveToFileViewModel.cs" />
+    <Compile Include="ViewModels\SaveToDatabaseViewModel.cs" />
     <Compile Include="ViewModels\OpenFromDatabaseViewModel.cs" />
     <Compile Include="ViewModels\OpenFromFileViewModel.cs" />
     <Compile Include="ViewModels\TextEditorViewModel.cs" />
@@ -137,11 +135,23 @@
     <Compile Include="Views\OpenFromDatabaseView.Designer.cs">
       <DependentUpon>OpenFromDatabaseView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SaveToFileView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SaveToFileView.Designer.cs">
+      <DependentUpon>SaveToFileView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\OpenFromFileView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\OpenFromFileView.Designer.cs">
       <DependentUpon>OpenFromFileView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SaveToDatabaseView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SaveToDatabaseView.Designer.cs">
+      <DependentUpon>SaveToDatabaseView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\TextEditorView.cs">
       <SubType>UserControl</SubType>
@@ -168,8 +178,14 @@
     <EmbeddedResource Include="Views\OpenFromDatabaseView.resx">
       <DependentUpon>OpenFromDatabaseView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\SaveToFileView.resx">
+      <DependentUpon>SaveToFileView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\OpenFromFileView.resx">
       <DependentUpon>OpenFromFileView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SaveToDatabaseView.resx">
+      <DependentUpon>SaveToDatabaseView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TextEditorView.resx">
       <DependentUpon>TextEditorView.cs</DependentUpon>

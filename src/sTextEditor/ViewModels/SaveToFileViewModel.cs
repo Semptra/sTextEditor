@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Forms;
 using ReactiveUI;
 using Splat;
@@ -7,7 +6,7 @@ using sTextEditor.Repositories;
 
 namespace sTextEditor.ViewModels
 {
-    public class OpenFromFileViewModel : ReactiveObject, IRoutableViewModel
+    public class SaveToFileViewModel : ReactiveObject, IRoutableViewModel
     {
         private string _fileName;
         public string FileName
@@ -30,47 +29,49 @@ namespace sTextEditor.ViewModels
             set => this.RaiseAndSetIfChanged(ref _fileText, value);
         }
 
-        public ReactiveCommand OpenFileCommand { get; }
+        public ReactiveCommand SaveFileCommand { get; }
 
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
 
         private readonly LocalFileRepository _localFileRepository;
 
-        public OpenFromFileViewModel(IScreen screen = null)
+        public SaveToFileViewModel(IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _localFileRepository = Locator.Current.GetService<LocalFileRepository>();
-            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
+            SaveFileCommand = ReactiveCommand.CreateFromTask(SaveFileAsync);
 
             LoadInfoFromCurrentFile();
         }
 
-        private async Task OpenFileAsync()
+        private async Task SaveFileAsync()
         {
-            string fileName = OpenFile();
+            string fileName = SaveFile();
 
             if (string.IsNullOrEmpty(fileName))
+            {
                 return;
-
-            var fileContent = await _localFileRepository.LoadFileAsync(fileName);
+            }
 
             FileName = fileName;
-            FileSize = string.Concat(fileContent.Length * sizeof(byte), " B");
-            FileText = Encoding.UTF8.GetString(fileContent);
 
-            MessageBox.Show($"File {FileName} loaded.", "Success", MessageBoxButtons.OK);
+            await _localFileRepository.SaveFileAsync(FileName, FileText);
+
+            MessageBox.Show($"File {FileName} saved.", "Success", MessageBoxButtons.OK);
 
             UpdateInfoToCurrentFile();
         }
 
-        private string OpenFile()
+        private string SaveFile()
         {
-            using (var openFileDialog = new OpenFileDialog())
+            using (var saveFileDialog = new SaveFileDialog())
             {
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                saveFileDialog.FileName = FileName;
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    return openFileDialog.FileName;
+                    return saveFileDialog.FileName;
                 }
                 else
                 {

@@ -21,6 +21,8 @@ namespace sTextEditor
             Locator.CurrentMutable.Register(() => new TextEditorView(), typeof(IViewFor<TextEditorViewModel>));
             Locator.CurrentMutable.Register(() => new OpenFromFileView(), typeof(IViewFor<OpenFromFileViewModel>));
             Locator.CurrentMutable.Register(() => new OpenFromDatabaseView(), typeof(IViewFor<OpenFromDatabaseViewModel>));
+            Locator.CurrentMutable.Register(() => new SaveToFileView(), typeof(IViewFor<SaveToFileViewModel>));
+            Locator.CurrentMutable.Register(() => new SaveToDatabaseView(), typeof(IViewFor<SaveToDatabaseViewModel>));
 
             Locator.CurrentMutable.RegisterLazySingleton(() => new CurrentLoadedFile());
 

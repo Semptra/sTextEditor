@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace sTextEditor.Repositories
 {
-    public class LocalFileRepository : IFileRepository
+    public class LocalFileRepository
     {
         public async Task<byte[]> LoadFileAsync(string name)
         { 

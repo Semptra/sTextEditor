@@ -18,8 +18,13 @@ namespace sTextEditor.ViewModels
             ShowOpenFromFileCommand = ReactiveCommand.Create(ShowOpenFromFile);
             ShowTextEditorCommand = ReactiveCommand.Create(ShowTextEditor);
             ShowOpenFromDatabaseCommand = ReactiveCommand.Create(ShowOpenFromDatabase);
+            ShowSaveToFileCommand = ReactiveCommand.Create(ShowSaveToFile);
+            ShowSaveToDatabaseCommand = ReactiveCommand.Create(ShowSaveToDatabase);
 
-            Locator.Current.GetService<DbFileRepository>().EnsureDbCreated();
+            Locator.Current.GetService<DbFileRepository>()
+                .EnsureDbCreatedAsync()
+                .GetAwaiter()
+                .GetResult();
 
             ShowTextEditor();
         }
@@ -35,8 +40,8 @@ namespace sTextEditor.ViewModels
         public ReactiveCommand ShowTextEditorCommand { get; }
         public ReactiveCommand ShowOpenFromFileCommand { get; }
         public ReactiveCommand ShowOpenFromDatabaseCommand { get; }
-        public ReactiveCommand ShowContactCommand { get; }
-        public ReactiveCommand GoBackCommand { get; }
+        public ReactiveCommand ShowSaveToFileCommand { get; }
+        public ReactiveCommand ShowSaveToDatabaseCommand { get; }
 
         private void ShowTextEditor()
         {
@@ -59,6 +64,22 @@ namespace sTextEditor.ViewModels
             Router
                 .Navigate
                 .Execute(new OpenFromDatabaseViewModel())
+                .Subscribe();
+        }
+
+        private void ShowSaveToFile()
+        {
+            Router
+                .Navigate
+                .Execute(new SaveToFileViewModel())
+                .Subscribe();
+        }
+
+        private void ShowSaveToDatabase()
+        {
+            Router
+                .Navigate
+                .Execute(new SaveToDatabaseViewModel())
                 .Subscribe();
         }
     }

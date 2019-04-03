@@ -4,9 +4,9 @@ using sTextEditor.ViewModels;
 
 namespace sTextEditor.Views
 {
-    public partial class OpenFromFileView : UserControl, IViewFor<OpenFromFileViewModel>
+    public partial class SaveToFileView : UserControl, IViewFor<SaveToFileViewModel>
     {
-        public OpenFromFileView()
+        public SaveToFileView()
         {
             InitializeComponent();
 
@@ -25,17 +25,17 @@ namespace sTextEditor.Views
                     view => view.FileContentPreview.Text));
 
                 d(this.BindCommand(ViewModel,
-                    viewModel => viewModel.OpenFileCommand,
-                    view => view.OpenFileButton));
+                    viewModel => viewModel.SaveFileCommand,
+                    view => view.SaveFileButton));
             });
         }
 
-        public OpenFromFileViewModel ViewModel { get; set; }
+        public SaveToFileViewModel ViewModel { get; set; }
 
         object IViewFor.ViewModel
         {
             get => ViewModel;
-            set => ViewModel = (OpenFromFileViewModel)value;
+            set => ViewModel = (SaveToFileViewModel)value;
         }
     }
 }

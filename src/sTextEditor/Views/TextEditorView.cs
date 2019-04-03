@@ -1,6 +1,7 @@
-﻿using ReactiveUI;
-using sTextEditor.ViewModels;
+﻿using System.Reactive.Linq;
 using System.Windows.Forms;
+using ReactiveUI;
+using sTextEditor.ViewModels;
 
 namespace sTextEditor.Views
 {
@@ -9,6 +10,11 @@ namespace sTextEditor.Views
         public TextEditorView()
         {
             InitializeComponent();
+
+            this.TextEditor.Events()
+                .TextChanged
+                .Select(_ => this.TextEditor.Text)
+                .InvokeCommand(this, view => view.ViewModel.UpdateFileTextCommand);
 
             this.WhenActivated(d =>
             {

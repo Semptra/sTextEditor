@@ -1,22 +1,19 @@
-﻿using System.Linq;
-using System.Reactive;
+﻿using System.ComponentModel;
+using System.Data;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive;
 using System.Windows.Forms;
 using ReactiveUI;
 using sTextEditor.ViewModels;
 
 namespace sTextEditor.Views
 {
-    public partial class OpenFromDatabaseView : UserControl, IViewFor<OpenFromDatabaseViewModel>
+    public partial class SaveToDatabaseView : UserControl, IViewFor<SaveToDatabaseViewModel>
     {
-        public OpenFromDatabaseView()
+        public SaveToDatabaseView()
         {
             InitializeComponent();
-
-            this.DbFilesDataGrid.Events()
-                .SelectionChanged
-                .Select(_ => FileNameSelector())
-                .InvokeCommand(this, view => view.ViewModel.UpdateSelectedRowCommand);
 
             this.Events()
                 .Enter
@@ -46,17 +43,17 @@ namespace sTextEditor.Views
                     view => view.RefreshDbFilesButton));
 
                 d(this.BindCommand(ViewModel,
-                    viewModel => viewModel.OpenFileCommand,
-                    view => view.OpenFileButton));
+                    viewModel => viewModel.SaveFileCommand,
+                    view => view.SaveFileButton));
             });
         }
 
-        public OpenFromDatabaseViewModel ViewModel { get; set; }
+        public SaveToDatabaseViewModel ViewModel { get; set; }
 
         object IViewFor.ViewModel
         {
             get => ViewModel;
-            set => ViewModel = (OpenFromDatabaseViewModel)value;
+            set => ViewModel = (SaveToDatabaseViewModel)value;
         }
 
         private string FileNameSelector()

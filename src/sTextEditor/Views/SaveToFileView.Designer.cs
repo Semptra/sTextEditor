@@ -1,6 +1,6 @@
 ﻿namespace sTextEditor.Views
 {
-    partial class OpenFromFileView
+    partial class SaveToFileView
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -32,7 +32,7 @@
             this.FileSizeTextBox = new System.Windows.Forms.TextBox();
             this.FileNameLabel = new System.Windows.Forms.Label();
             this.FileSizeLabel = new System.Windows.Forms.Label();
-            this.OpenFileButton = new System.Windows.Forms.Button();
+            this.SaveFileButton = new System.Windows.Forms.Button();
             this.FileContentPreview = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -76,15 +76,15 @@
             this.FileSizeLabel.TabIndex = 3;
             this.FileSizeLabel.Text = "File size";
             // 
-            // OpenFileButton
+            // SaveFileButton
             // 
-            this.OpenFileButton.Location = new System.Drawing.Point(909, 11);
-            this.OpenFileButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.OpenFileButton.Name = "OpenFileButton";
-            this.OpenFileButton.Size = new System.Drawing.Size(196, 35);
-            this.OpenFileButton.TabIndex = 4;
-            this.OpenFileButton.Text = "Open file";
-            this.OpenFileButton.UseVisualStyleBackColor = true;
+            this.SaveFileButton.Location = new System.Drawing.Point(909, 11);
+            this.SaveFileButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SaveFileButton.Name = "SaveFileButton";
+            this.SaveFileButton.Size = new System.Drawing.Size(196, 35);
+            this.SaveFileButton.TabIndex = 4;
+            this.SaveFileButton.Text = "Save file";
+            this.SaveFileButton.UseVisualStyleBackColor = true;
             // 
             // FileContentPreview
             // 
@@ -97,18 +97,18 @@
             this.FileContentPreview.TabIndex = 7;
             this.FileContentPreview.Text = "";
             // 
-            // OpenFromFileView
+            // SaveToFileView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.FileContentPreview);
-            this.Controls.Add(this.OpenFileButton);
+            this.Controls.Add(this.SaveFileButton);
             this.Controls.Add(this.FileSizeLabel);
             this.Controls.Add(this.FileNameLabel);
             this.Controls.Add(this.FileSizeTextBox);
             this.Controls.Add(this.FileNameTextBox);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "OpenFromFileView";
+            this.Name = "SaveToFileView";
             this.Size = new System.Drawing.Size(1110, 680);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -121,7 +121,7 @@
         private System.Windows.Forms.TextBox FileSizeTextBox;
         private System.Windows.Forms.Label FileNameLabel;
         private System.Windows.Forms.Label FileSizeLabel;
-        private System.Windows.Forms.Button OpenFileButton;
+        private System.Windows.Forms.Button SaveFileButton;
         private System.Windows.Forms.RichTextBox FileContentPreview;
     }
 }

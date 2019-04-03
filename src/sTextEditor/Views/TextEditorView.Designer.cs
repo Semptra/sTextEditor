@@ -33,18 +33,20 @@
             // 
             // TextEditor
             // 
-            this.TextEditor.Location = new System.Drawing.Point(3, 3);
+            this.TextEditor.Location = new System.Drawing.Point(4, 5);
+            this.TextEditor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.TextEditor.Name = "TextEditor";
-            this.TextEditor.Size = new System.Drawing.Size(660, 403);
+            this.TextEditor.Size = new System.Drawing.Size(1102, 670);
             this.TextEditor.TabIndex = 0;
             // 
             // TextEditorView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.TextEditor);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "TextEditorView";
-            this.Size = new System.Drawing.Size(666, 409);
+            this.Size = new System.Drawing.Size(1110, 680);
             this.ResumeLayout(false);
 
         }

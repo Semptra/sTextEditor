@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data;
 using System.Data.SQLite;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using sTextEditor.Models;
 
 namespace sTextEditor.Repositories
 {
-    public class DbFileRepository : IFileRepository
+    public class DbFileRepository
     {
         private readonly SQLiteConnection _connection;
 
@@ -23,56 +18,27 @@ namespace sTextEditor.Repositories
         {
             _connection.Open();
 
-            var fileContent = await _connection.ExecuteScalarAsync<byte[]>($"" +
-                $"SELECT Content " +
-                $"FROM FileInfo " +
-                $"WHERE Name='{name}'");
+            var fileContent = await _connection.ExecuteScalarAsync<byte[]>(
+                "SELECT Content " +
+                "FROM FileInfo " +
+                "WHERE Name = @Name",
+                param: new { Name = name });
 
             _connection.Close();
+
             return fileContent;
-        }
-
-        public async Task SaveFileAsync(string name, string fileContent)
-        {
-            _connection.Open();
-
-            var existingFileId = _connection.ExecuteScalar<int>(
-                $"SELECT Id " +
-                $"FROM FileInfo " +
-                $"WHERE Name = '{name}'");
-
-            var command = new SQLiteCommand(_connection);
-
-            if (existingFileId <= 0)
-            {
-                command.CommandText =
-                    $"INSERT INTO FileInfo (Name, Content, LastModifiedDate) " +
-                    $"VALUES ('{name}', @content, '{DateTime.Now.ToString()}')";
-            }
-            else
-            {
-                command.CommandText =
-                    $"UPDATE FileInfo " +
-                    $"SET Content = @content, LastModifiedDate = '{DateTime.Now.ToString()}' " +
-                    $"WHERE Id = {existingFileId}";
-            }
-
-            var parameter = new SQLiteParameter("@content", DbType.Binary);
-            parameter.Value = Encoding.UTF8.GetBytes(fileContent);
-            command.Parameters.Add(parameter);
-
-            await command.ExecuteNonQueryAsync();
-
-            _connection.Close();
         }
 
         public DataTable LoadAllFiles()
         {
             _connection.Open();
 
-            var resultDataTable = new DataTable();
-            var sql = new SQLiteCommand("SELECT Id, Name, LastModifiedDate FROM FileInfo", _connection);
+            var sql = new SQLiteCommand("" +
+                "SELECT Id, Name, LENGTH(Content) || ' B' AS Size " +
+                "FROM FileInfo", _connection);
+
             var dataAdapter = new SQLiteDataAdapter(sql);
+            var resultDataTable = new DataTable();
             dataAdapter.Fill(resultDataTable);
 
             _connection.Close();
@@ -80,20 +46,64 @@ namespace sTextEditor.Repositories
             return resultDataTable;
         }
 
-        public void EnsureDbCreated()
+        public async Task<bool> IsFileExistsAsync(string fileName)
         {
             _connection.Open();
 
-            var fileInfoTable = _connection.ExecuteScalar<string>(
+            var fileId = await _connection.QueryFirstOrDefaultAsync<int?>(
+                "SELECT Id " +
+                "FROM FileInfo " +
+                "WHERE Name = @Name",
+                param: new { Name = fileName });
+
+            _connection.Close();
+
+            return fileId != null;
+        }
+
+        public async Task<int> InsertFileAsync(string fileName, byte[] fileContent)
+        {
+            _connection.Open();
+
+            var updateResult = await _connection.ExecuteAsync(
+                "INSERT INTO FileInfo (Name, Content) " +
+                "VALUES (@Name, @Content)",
+                param: new { Name = fileName, Content = fileContent });
+
+            _connection.Close();
+
+            return updateResult;
+        }
+
+        public async Task<int> UpdateFileAsync(string fileName, byte[] fileContent)
+        {
+            _connection.Open();
+
+            var updateResult = await _connection.ExecuteAsync(
+                "UPDATE FileInfo " +
+                "SET Content = @Content " +
+                "WHERE Name = @Name",
+                param: new { Name = fileName, Content = fileContent });
+
+            _connection.Close();
+
+            return updateResult;
+        }
+
+        public async Task EnsureDbCreatedAsync()
+        {
+            _connection.Open();
+
+            var fileInfoTable = await _connection.ExecuteScalarAsync<string>(
                 "SELECT name " +
                 "FROM SQLITE_MASTER " +
                 "WHERE type='table' AND name='FileInfo'");
 
             if (string.IsNullOrEmpty(fileInfoTable))
             {
-                _connection.Execute(
+                await _connection.ExecuteAsync(
                     $"CREATE TABLE FileInfo " +
-                    $"(Id INTEGER PRIMARY KEY, Name TEXT UNIQUE, Content BLOB, LastModifiedDate DATETIME)");
+                    $"(Id INTEGER PRIMARY KEY, Name TEXT UNIQUE, Content BLOB)");
             }
 
             _connection.Close();

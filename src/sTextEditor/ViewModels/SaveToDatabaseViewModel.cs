@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,7 +8,7 @@ using sTextEditor.Repositories;
 
 namespace sTextEditor.ViewModels
 {
-    public class OpenFromDatabaseViewModel : ReactiveObject, IRoutableViewModel
+    public class SaveToDatabaseViewModel : ReactiveObject, IRoutableViewModel
     {
         private DataTable _dbFiles;
         public DataTable DbFiles
@@ -39,30 +38,21 @@ namespace sTextEditor.ViewModels
             set => this.RaiseAndSetIfChanged(ref _fileText, value);
         }
 
-        private string _selectedDataGridFileName;
-        public string SelectedDataGridFileName
-        {
-            get => _selectedDataGridFileName;
-            set => this.RaiseAndSetIfChanged(ref _selectedDataGridFileName, value);
-        }
-
         public ReactiveCommand RefreshDbFilesCommand { get; }
-        public ReactiveCommand OpenFileCommand { get; }
-        public ReactiveCommand<string, Unit> UpdateSelectedRowCommand { get; }
+        public ReactiveCommand SaveFileCommand { get; }
 
         public string UrlPathSegment { get; }
         public IScreen HostScreen { get; }
 
         private readonly DbFileRepository _dbFileRepository;
 
-        public OpenFromDatabaseViewModel(IScreen screen = null)
+        public SaveToDatabaseViewModel(IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _dbFileRepository = Locator.Current.GetService<DbFileRepository>();
 
             RefreshDbFilesCommand = ReactiveCommand.Create(RefreshDbFiles);
-            OpenFileCommand = ReactiveCommand.CreateFromTask(OpenFileAsync);
-            UpdateSelectedRowCommand = ReactiveCommand.Create<string, Unit>(UpdateSelectedRow);
+            SaveFileCommand = ReactiveCommand.CreateFromTask(SafeFileAsync);
 
             LoadInfoFromCurrentFile();
         }
@@ -72,35 +62,34 @@ namespace sTextEditor.ViewModels
             DbFiles = _dbFileRepository.LoadAllFiles();
         }
 
-        private async Task OpenFileAsync()
+        private async Task SafeFileAsync()
         {
-            if (SelectedDataGridFileName is null)
+            if (FileText == null || FileName == null || FileSize == null)
             {
-                MessageBox.Show("Please select a file by chosing either the row or the file name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No loaded file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var fileContent = await _dbFileRepository.LoadFileAsync(SelectedDataGridFileName);
+            var isFileExists = await _dbFileRepository.IsFileExistsAsync(FileName);
 
-            if (fileContent is null)
+            if (isFileExists)
             {
-                MessageBox.Show($"File with name {SelectedDataGridFileName} not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                var result = MessageBox.Show($"File with name {FileName} already exists. Do you want to update it?",
+                    "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    await _dbFileRepository.UpdateFileAsync(FileName, Encoding.UTF8.GetBytes(FileText));
+                    RefreshDbFiles();
+                    MessageBox.Show($"File {FileName} saved.", "Success", MessageBoxButtons.OK);
+                }
             }
-
-            FileName = SelectedDataGridFileName;
-            FileSize = string.Concat(fileContent.Length * sizeof(byte), " B");
-            FileText = Encoding.UTF8.GetString(fileContent);
-
-            MessageBox.Show($"File {FileName} loaded.", "Success", MessageBoxButtons.OK);
-
-            UpdateInfoToCurrentFile();
-        }
-
-        private Unit UpdateSelectedRow(string fileName)
-        {
-            SelectedDataGridFileName = fileName;
-            return Unit.Default;
+            else
+            {
+                await _dbFileRepository.InsertFileAsync(FileName, Encoding.UTF8.GetBytes(FileText));
+                RefreshDbFiles();
+                MessageBox.Show($"File {FileName} saved.", "Success", MessageBoxButtons.OK);
+            }
         }
 
         private void LoadInfoFromCurrentFile()
