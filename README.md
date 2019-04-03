@@ -12,6 +12,7 @@ Simple text editor.
 * [ReactiveUI.WinForms](https://reactiveui.net/docs/getting-started/installation/windows-forms) - for WinForms support.
 * [ReactiveUI.Events.WinForms](https://reactiveui.net/docs/handbook/events/) - for additional event handling.
 * [System.Data.SQLite](https://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki) - data provider for SQLite.
+* [System.IO.Compression](https://docs.microsoft.com/en-us/dotnet/api/system.io.compression?view=netframework-4.7.2) - for data compresstion.
 * [Dapper](https://github.com/StackExchange/Dapper) - for data querying.
 * [Newtonsoft.JSON](https://github.com/JamesNK/Newtonsoft.Json) - for JSON formatting and configuration files serialization.
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) - for syntax highlighting.
