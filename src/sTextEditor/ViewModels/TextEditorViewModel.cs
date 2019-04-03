@@ -17,6 +17,8 @@ namespace sTextEditor.ViewModels
 
         public TextEditorViewModel()
         {
+            _formattingService = Locator.Current.GetService<FormattingService>();
+
             var currentLoadedFile = Locator.Current.GetService<CurrentLoadedFile>();
             FileText = currentLoadedFile?.Text ?? string.Empty;
 

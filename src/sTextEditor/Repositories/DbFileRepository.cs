@@ -49,7 +49,9 @@ namespace sTextEditor.Repositories
 
             _connection.Close();
 
-            return fileContent;
+            var decompressedFileContent = _compressionService.Decompress(fileContent);
+
+            return decompressedFileContent;
         }
 
         public DataTable LoadAllFiles()
@@ -88,10 +90,12 @@ namespace sTextEditor.Repositories
         {
             _connection.Open();
 
+            var complressedFileContent = _compressionService.Compress(fileContent);
+
             var updateResult = await _connection.ExecuteAsync(
                 "INSERT INTO FileInfo (Name, Content) " +
                 "VALUES (@Name, @Content)",
-                param: new { Name = fileName, Content = fileContent });
+                param: new { Name = fileName, Content = complressedFileContent });
 
             _connection.Close();
 
@@ -102,11 +106,13 @@ namespace sTextEditor.Repositories
         {
             _connection.Open();
 
+            var complressedFileContent = _compressionService.Compress(fileContent);
+
             var updateResult = await _connection.ExecuteAsync(
                 "UPDATE FileInfo " +
                 "SET Content = @Content " +
                 "WHERE Name = @Name",
-                param: new { Name = fileName, Content = fileContent });
+                param: new { Name = fileName, Content = complressedFileContent });
 
             _connection.Close();
 
