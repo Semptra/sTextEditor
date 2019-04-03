@@ -15,3 +15,4 @@ Simple text editor.
 * [Dapper](https://github.com/StackExchange/Dapper) - for data querying.
 * [Newtonsoft.JSON](https://github.com/JamesNK/Newtonsoft.Json) - for JSON formatting and configuration files serialization.
 * [ScintillaNET](https://github.com/jacobslusser/ScintillaNET) - for syntax highlighting.
+* [NUnit](https://github.com/nunit/nunit) - for Unit testing.
